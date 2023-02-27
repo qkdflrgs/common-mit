@@ -18,11 +18,7 @@ class MitCommandImplTest {
         //when
         Optional<List<File>> optionalList = mit.list("./Work/Masters");
         //then
-        optionalList.ifPresentOrElse(list->{
-            list.stream()
-                    .map(file->String.format("%s %.2fKB", file.getName(), (double) file.length() / 1024))
-                    .forEach(System.out::println);
-        }, ()-> Assertions.fail("테스트에 실패하였습니다."));
+        optionalList.ifPresentOrElse(mit.outputList, ()-> Assertions.fail("테스트에 실패하였습니다."));
     }
 
     @ParameterizedTest
@@ -33,6 +29,30 @@ class MitCommandImplTest {
         MitCommand mit = new MitCommandImpl();
         //when
         Optional<List<File>> optionalList = mit.list(directoryName);
+        //then
+        Assertions.assertThat(optionalList.isEmpty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("mit list 명령어 수행시 디렉토리가 파일이 없고 디렉도리만 있는 경우 빈 리스트를 가져오는지 테스트")
+    public void list_givenNotExistFile_whenMitList_thenEmptyFileList(){
+        //given
+        String directoryName = "./Work";
+        MitCommand mit = new MitCommandImpl();
+        //when
+        Optional<List<File>> optionalList = mit.list(directoryName);
+        //then
+        Assertions.assertThat(optionalList.isEmpty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("mit list 명령어 수행시 파일을 입력한 경우 빈 리스트를 가져오는지 테스트")
+    public void list_givenFileName_whenMitList_thenEmptyFileList(){
+        //given
+        String fileName = "./Work/Masters/a";
+        MitCommand mit = new MitCommandImpl();
+        //when
+        Optional<List<File>> optionalList = mit.list(fileName);
         //then
         Assertions.assertThat(optionalList.isEmpty()).isTrue();
     }

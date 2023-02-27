@@ -1,8 +1,5 @@
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class MitCommandImpl implements MitCommand{
 
@@ -19,7 +16,7 @@ public class MitCommandImpl implements MitCommand{
         if(folder == null || !folder.isDirectory()){ // 디렉토리가 아닌 경우
             System.out.printf("입력하신 디렉토리명은 디렉토리가 아닙니다. : %s%n", directoryName);
             return Optional.empty();
-        }else if(folder.listFiles() == null){ // 디렉토리안에 파일이 존재하지 않는 경우
+        }else if(notExistFiles(folder)){ // 디렉토리안에 파일이 존재하지 않는 경우
             System.out.printf("디렉토리가 비어있습니다. : %s%n", folder.getName());
             return Optional.empty();
         }
@@ -28,13 +25,21 @@ public class MitCommandImpl implements MitCommand{
         return Optional.of(result);
     }
 
+    private boolean notExistFiles(File folder){
+        if(folder == null || folder.listFiles() == null){
+            return true;
+        }
+
+        return Arrays.stream(folder.listFiles()).allMatch(File::isDirectory);
+    }
+
     @Override
-    public Optional<List<String>> hash(String directoryName) {
+    public Optional<List<File>> hash(String directoryName) {
         return null;
     }
 
     @Override
-    public Optional<List<String>> zlib(String directoryName) {
+    public Optional<List<File>> zlib(String directoryName) {
         return null;
     }
 }
