@@ -18,11 +18,7 @@ class MitCommandImplTest {
         //when
         Optional<List<File>> optionalList = mit.list("./Work/Masters");
         //then
-        optionalList.ifPresentOrElse(list->{
-            list.stream()
-                    .map(file->String.format("%s %.2fKB", file.getName(), (double) file.length() / 1024))
-                    .forEach(System.out::println);
-        }, ()-> Assertions.fail("테스트에 실패하였습니다."));
+        optionalList.ifPresentOrElse(mit.outputList, ()-> Assertions.fail("테스트에 실패하였습니다."));
     }
 
     @ParameterizedTest
