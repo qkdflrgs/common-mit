@@ -34,12 +34,12 @@ public class MitCommandImpl implements MitCommand{
     }
 
     @Override
-    public Optional<List<String>> hash(String directoryName) {
+    public Optional<List<File>> hash(String directoryName) {
         return null;
     }
 
     @Override
-    public Optional<List<String>> zlib(String directoryName) {
+    public Optional<List<File>> zlib(String directoryName) {
         return null;
     }
 }

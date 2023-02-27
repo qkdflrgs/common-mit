@@ -5,8 +5,8 @@ import java.util.function.Consumer;
 
 public interface MitCommand {
     Optional<List<File>> list(String directoryName);
-    Optional<List<String>> hash(String directoryName);
-    Optional<List<String>> zlib(String directoryName);
+    Optional<List<File>> hash(String directoryName);
+    Optional<List<File>> zlib(String directoryName);
 
     Consumer<List<File>> outputList = (files->{
         files.stream()
