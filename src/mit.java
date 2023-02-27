@@ -7,5 +7,6 @@ public class mit {
         File directory = new File("./Work/Masters");
 
         DirectoryScanner scanner = new DirectoryScanner(directory);
+        SHA256FileNameHasher hasher = new SHA256FileNameHasher(directory);
     }
 }
