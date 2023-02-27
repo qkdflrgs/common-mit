@@ -32,7 +32,6 @@ public class InputView {
             return requestCommand();
         }
 
-
         return Command.createNew(command, path);
     }
 
