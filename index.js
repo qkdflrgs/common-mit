@@ -25,12 +25,13 @@ rl.question(chalk.blue(''), async (input) => {
 
     fileList.forEach((file) => {
       const filePath = path.join(directory, file);
-      let result = '';
       switch (command) {
         case 'list':
           listFiles(filePath, file);
+          break;
         case 'hash':
           hashFiles(filePath, file);
+          break;
         case 'zlib':
       }
     });
