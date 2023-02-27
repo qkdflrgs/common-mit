@@ -12,7 +12,7 @@ console.log("형식 1. : mit list 디렉토리명");
 console.log("형식 2. : mit hash 디렉토리명");
 console.log("형식 3. : mit zlib 디렉토리명");
 
-this.stdio.on("line", (cmd) => {
+this.stdio.on("line", async (cmd) => {
   if (cmd === "exit") {
     this.stdio.close();
   }
@@ -28,7 +28,7 @@ this.stdio.on("line", (cmd) => {
         hash(directoryPath);
         break;
       case "zlib":
-        zlib(directoryPath);
+        await zlib(directoryPath);
         break;
     }
   }
