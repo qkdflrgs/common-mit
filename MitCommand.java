@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ public enum MitCommand {
     ZLIB("zlib"){
         @Override
         void run(String directory) {
+            // 디렉토리에서 전체 파일 목록을 탐색하고, 각 파일을 zlib로 압축해서 .z를 붙여서 저장한다.
             System.out.println("zlib이 실행됩니다.");
         }
     };
@@ -38,5 +40,5 @@ public enum MitCommand {
         return Arrays.stream(values()).filter(e -> e.command.equals(str)).findFirst();
     }
 
-    abstract void run(String directory) throws IOException;
+    abstract void run(String directory) throws IOException, NoSuchAlgorithmException;
 }
