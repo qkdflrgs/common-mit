@@ -11,6 +11,7 @@ public class InputView {
 
     public void stop() {
         try {
+            System.out.println("프로그램을 종료합니다.");
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
