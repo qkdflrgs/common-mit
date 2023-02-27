@@ -20,15 +20,6 @@ export class App {
     });
   }
 
-  async searchFiles(directoryPath) {
-    try {
-      const fileList = await readdir(directoryPath);
-      return fileList;
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   async list(directoryPath) {
     try {
       const fileList = await readdir(directoryPath);
