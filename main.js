@@ -1,6 +1,6 @@
 const { list } = require("./list.js");
 const { hash } = require("./hash.js");
-const { zlib } = require("./zlib.js");
+const { zlib, printZlib } = require("./zlib.js");
 this.readline = require("readline");
 this.stdio = this.readline.createInterface({
   input: process.stdin,
