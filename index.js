@@ -3,6 +3,7 @@ const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const zlib = require('zlib');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -33,6 +34,8 @@ rl.question(chalk.blue(''), async (input) => {
           hashFiles(filePath, file);
           break;
         case 'zlib':
+          zipFiles(filePath, file, directory);
+          break;
       }
     });
   } catch (err) {
@@ -72,24 +75,14 @@ function listFiles(filePath, file) {
   });
 }
 
-function checkIsDirectory(filePath) {
-  return new Promise((resolve, reject) => {
-    fs.stat(filePath, (err, stat) => {
-      if (err) {
-        console.log(chalk.red(err.message));
-        return reject(err);
-      }
-      resolve(stat.isDirectory());
-    });
-  });
-}
-
 async function hashFiles(filePath, file) {
   const hash = crypto.createHash('sha256');
   const fileStream = fs.createReadStream(filePath);
   let isDirectory = false;
+  let stat;
   try {
-    isDirectory = await checkIsDirectory(filePath);
+    stat = await getStat(filePath);
+    if (stat.isDirectory()) isDirectory = true;
   } catch (err) {
     console.log(chalk.red(err.message));
     return;
@@ -112,4 +105,51 @@ async function hashFiles(filePath, file) {
     const sha256Hash = hash.digest('hex');
     console.log(chalk.green(`${file} = ${sha256Hash}`));
   });
+}
+
+async function zipFiles(filePath, file) {
+  const outputFilePath = getOutputFilePath(filePath);
+  const outputFileName = path.basename(outputFilePath);
+  const readStream = fs.createReadStream(filePath);
+  const writeStream = fs.createWriteStream(outputFilePath);
+  const zip = zlib.createDeflate();
+  readStream.pipe(zip).pipe(writeStream);
+  let stat;
+
+  try {
+    stat = await getStat(filePath);
+  } catch (err) {
+    console.log(chalk.red(err.message));
+    return;
+  }
+  writeStream.on('error', (err) => {
+    console.error(`Failed to compress file ${filePath}: ${err}`);
+  });
+
+  const fileSizeInKiloBytes = (stat.size / 1024).toFixed(2);
+  writeStream.on('close', () => {
+    console.log(`${outputFileName} ${fileSizeInKiloBytes}KB`);
+  });
+}
+
+// utils
+
+function getStat(filePath) {
+  return new Promise((resolve, reject) => {
+    fs.stat(filePath, (err, stat) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(stat);
+    });
+  });
+}
+
+function getOutputFilePath(filePath) {
+  const directoryPath = path.dirname(filePath);
+  const fileExt = path.extname(filePath);
+  const fileName = path.basename(filePath, fileExt);
+  const zipFileName = `${fileName}.z`;
+  const outputFilePath = path.join(directoryPath, zipFileName);
+  return outputFilePath;
 }
