@@ -9,7 +9,7 @@ public class InputView {
 
     public static Command command() {
         try {
-            System.out.print("$ ");
+            System.out.print("\n$ ");
             return new Command(SCANNER.nextLine());
         } catch (IllegalArgumentException e) {
             System.out.printf("%s\n\n", e.getMessage());

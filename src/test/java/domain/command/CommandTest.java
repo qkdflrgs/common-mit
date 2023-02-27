@@ -7,10 +7,12 @@ import org.junit.jupiter.api.Test;
 
 class CommandTest {
 
+
+
     @Test
     void createSuccess() {
         // given
-        String input1 = "mit list /Desktop/masters/cs/cs16";
+        String input1 = String.format("mit list %s/src/test/resources", getProjectPath());
         String input2 = "quit";
 
         // when
@@ -36,7 +38,7 @@ class CommandTest {
     @DisplayName("첫번째 명령어가 mit가 아닌경우")
     void createFail2() {
         // given
-        String input = "git list /Desktop/masters/cs/cs16";
+        String input = String.format("git list %s/src/test/resources", getProjectPath());
 
         // when
 
@@ -48,7 +50,7 @@ class CommandTest {
     @DisplayName("존재하지 않는 메뉴 명령어인 경우")
     void createFail3() {
         // given
-        String input = "mit empty /Desktop/masters/cs/cs16";
+        String input = String.format("git empty %s/src/test/resources", getProjectPath());
 
         // when
 
@@ -60,11 +62,17 @@ class CommandTest {
     @DisplayName("존재하지 않는 디렉토리일 경우")
     void createFail4() {
         // given
-        String input = "mit list /Desktop1/masters/cs/cs16";
+        String input = String.format("git list %s/src/test/resources2", getProjectPath());
 
         // when
 
         // then
         assertThrows(IllegalArgumentException.class, () -> new Command(input));
+    }
+
+    private String getProjectPath() {
+        String projectPath = System.getProperty("user.dir");
+        String homePath = System.getProperty("user.home");
+        return projectPath.replace(homePath, "");
     }
 }

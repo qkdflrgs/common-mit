@@ -1,6 +1,8 @@
 package controller;
 
 import domain.command.Command;
+import domain.file.FileContent;
+import domain.hashcode.HashCode;
 import java.io.File;
 import view.InputView;
 import view.OutputView;
@@ -30,7 +32,15 @@ public class CommandController {
     }
 
     private void hash(File[] files) {
+        for (File file : files) {
+            if (file.isDirectory()) {
+                continue;
+            }
 
+            FileContent fileContent = new FileContent(file);
+            HashCode hashCode = new HashCode(fileContent.getContent(), "SHA-256");
+            OutputView.printHash(file.getName(), hashCode.getCode());
+        }
     }
 
     private void zlib(File[] files) {
