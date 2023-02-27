@@ -16,4 +16,10 @@ extension URL {
       return sizeInByte
     }
   }
+  
+  var data: Data? {
+    get throws {
+      try Data(contentsOf: self)
+    }
+  }
 }

@@ -32,9 +32,26 @@ final class Mit {
     return outputs
   }
   
+  private static func hash(_ path: String) -> [HashOutput] {
+    var outputs: [HashOutput] = []
+    do {
+      let entities = try getEntitiesURL(from: path)
+      outputs = try entities.compactMap { entity -> HashOutput? in
+        let name = entity.lastPathComponent
+        guard let data = try entity.data else { return nil }
+        let hash = data.hash
+        return HashOutput(fileName: name, info: hash)
+      }
+    } catch {
+      print(error)
+    }
+    return outputs
+  }
+  
   private static func process(_ command: MitCommand) -> [any MitOutput] {
     switch command {
     case .list(let path): return list(path)
+    case .hash(let path): return hash(path)
     default: return []
     }
   }
