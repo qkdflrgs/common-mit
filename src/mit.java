@@ -8,5 +8,6 @@ public class mit {
 
         DirectoryScanner scanner = new DirectoryScanner(directory);
         SHA256FileNameHasher hasher = new SHA256FileNameHasher(directory);
+        ZlibFileZipper zlibFileZipper = new ZlibFileZipper(directory);
     }
 }
