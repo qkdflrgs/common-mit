@@ -34,6 +34,18 @@ class MitCommandImplTest {
     }
 
     @Test
+    @DisplayName("mit list 명령어 수행시 디렉토리가 파일이 없고 디렉도리만 있는 경우 빈 리스트를 가져오는지 테스트")
+    public void list_givenNotExistFile_whenMitList_thenEmptyFileList(){
+        //given
+        String directoryName = "./Work";
+        MitCommand mit = new MitCommandImpl();
+        //when
+        Optional<List<File>> optionalList = mit.list(directoryName);
+        //then
+        Assertions.assertThat(optionalList.isEmpty()).isTrue();
+    }
+
+    @Test
     @DisplayName("mit list 명령어 수행시 디렉토리명이 null인 경우 빈 리스트를 가져오는지 테스트")
     public void list_givenDirectoryNameWithNull_whenMitList_thenEmptyFileList(){
         //given
