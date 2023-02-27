@@ -45,7 +45,13 @@ class CommandLine {
         }
         break;
       case "hash":
-        // this.mit.hash(dirname);
+        try {
+          (await this.mit.hash(dirname)).forEach(({ name, hash }) => {
+            console.log(`${name} = ${hash}`);
+          });
+        } catch (err) {
+          console.log(err);
+        }
         break;
       case "zlib":
         // this.mit.zlib(dirname);
