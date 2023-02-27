@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/youzysu/common-mit/issues"
   },
-  "homepage": "https://github.com/youzysu/common-mit#readme"
+  "homepage": "https://github.com/youzysu/common-mit#readme",
+  "dependencies": {
+    "crypto": "^1.0.1"
+  }
 }
