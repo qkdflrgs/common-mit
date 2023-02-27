@@ -19,10 +19,10 @@ CS16 공통 프로젝트 저장소
 
 **(1) 저장소 관련 용어**
 
-- local: git 저장소는 사용자의 컴퓨터인 로컬 저장소(local repository) 와 원격 저장소(remote repository)로 나뉜다. 로컬 저장소는 내 PC에 파일이 저장되는 개인 전용 저장소이다.
-- remote: 원격 저장소는 파일이 원격 저장소 전용 서버에서 관리가 되며, 여러 사람들이 함께 공유하고 작업하기 위해 사용하는 저장소이다.
-- init: `git init` 명령은 프로젝트의 디렉토리에 `.git`이라는 하위 디렉토리를 만든다. 이 `.git`디렉토리에는 저장소에 필요한 뼈대(skeleton)가 되는 파일들이 들어가 있다. 그 중 중요한 항목들로는 현재 checkout한 브랜치를 가리키는 `HEAD`파일, staging area의 정보를 저장하는 `index`파일, 모든 컨텐츠를 저장하는 데이터베이스 역할을 하는 `objects` 디렉토리, 커밋 객체의 포인터를 저장하는 `refs` 디렉토리가 있다.
-- clone: 다른 프로젝트에 참여하거나 Git 저장소를 복사하고 싶을 때 `git clone`을 사용한다. 이 명령어는 저장소에 있는 거의 모든 데이터를 복사해온다. 프로젝트 히스토리도 전부 받아온다. Git은 https:// 프로토콜 뿐 아니라 SSH 프로토콜와 같은 다양한 프로토콜을 지원한다.
+- **local:** git 저장소는 사용자의 컴퓨터인 로컬 저장소(local repository) 와 원격 저장소(remote repository)로 나뉜다. 로컬 저장소는 내 PC에 파일이 저장되는 개인 전용 저장소이다.
+- **remote:** 원격 저장소는 파일이 원격 저장소 전용 서버에서 관리가 되며, 여러 사람들이 함께 공유하고 작업하기 위해 사용하는 저장소이다.
+- **init:** `git init` 명령은 프로젝트의 디렉토리에 `.git`이라는 하위 디렉토리를 만든다. 이 `.git`디렉토리에는 저장소에 필요한 뼈대(skeleton)가 되는 파일들이 들어가 있다. 그 중 중요한 항목들로는 현재 checkout한 브랜치를 가리키는 `HEAD`파일, staging area의 정보를 저장하는 `index`파일, 모든 컨텐츠를 저장하는 데이터베이스 역할을 하는 `objects` 디렉토리, 커밋 객체의 포인터를 저장하는 `refs` 디렉토리가 있다.
+- **clone:** 다른 프로젝트에 참여하거나 Git 저장소를 복사하고 싶을 때 `git clone`을 사용한다. 이 명령어는 저장소에 있는 거의 모든 데이터를 복사해온다. 프로젝트 히스토리도 전부 받아온다. Git은 https:// 프로토콜 뿐 아니라 SSH 프로토콜와 같은 다양한 프로토콜을 지원한다.
 
 **(2) 상태 관리 용어**
 
@@ -45,26 +45,23 @@ Git은 파일을 **Committed**, **Modified**, **Staged** 이렇게 3가지 상�
 
   Git이 버전 관리를 하기 위해서 필요로 하는 데이터들을 저장하는 곳이다. 기본적으로 버전 관리를 시작한 시점부터 현재 시점까지의 여러 버전들에 해당하는 파일들의 내용이 Blob 파일로서 이곳에 저장되어 있다. 이곳에 저장된 파일들을 특별히 오브젝트 파일이라 부르며, Blob 파일도 오브젝트 파일의 한 종류이다. 실제로 프로젝트 폴더 하위에 있는 .git/objects/ 폴더에 위치한다.
 
-(3) 파일 관련 용어
-
-- Untracked
-- Unmodified
-- Modified
-- Staged
+**(3) 파일 관련 용어**
 
 ![git_lifecycle](https://user-images.githubusercontent.com/76121068/221581570-1894b691-09b6-42c0-adcc-810c83639caf.png)
 
-(4) Git의 객체들(Objects)
+- **Untracked:** 워킹 디렉토리에 존재하지만 git의 관리대상이 아닌 파일로 스냅샷과 Staging area에도 포함되지 않은 파일이다. 처음 저장소를 clone한 이후에 만들어진 파일이나 마지막 커밋 이후 새로 만들어진 파일들이 여기에 해당한다.
+- **Unmodified:** Git으로 관리되고 있는 Tracked 파일 중 수정되지 않은 파일 상태이다. 한 번 이상 commit 된 파일 중 수정하지 않은 파일 또는 다른 저장소의 파일들을 clone 해왔을 때의 파일들이 여기에 해당한다.
+- **Modified:** Git으로 관리되고 있는 Tracked 파일 중 수정을 한 파일 상태이다. Unmodified 상태의 파일을 수정하면 Modified 상태가 된다. `git status`명령을 실행했을 때 “Changes not staged for commit:” 설명 뒤에 나오는 파일들이 이에 해당한다.
+- **Staged:** commit 할 준비가 된 파일의 상태이다. Staging area 영역에 있는 파일의 상태이며, Untracked 상태의 파일이나 Modified 상태의 파일들을 `git add` 명령을 통해 staged 상태로 만들 수 있다. `git status`명령을 실행했을 때 “Changes to be committed:” 설명 뒤에 나오는 파일들이 이에 해당한다.
 
-- Commit
-- Tree
-- Blob
+**(4) Git의 객체들(Objects)**
+
+- **Commit:** Git에서 가장 중요한 객체로 이 파일에는 부모 커밋에 대한 참조, 커밋 메세지, 가리키고 있는 트리(tree) 파일의 참조 등이 기록된다. 하나의 버전을 생성한다는 것은 하나의 commit 파일을 만드는 것이다.
+- **Tree:** Tree파일에는 커밋 시점의 파일들 각각에 대해서 그 파일명과 해당 파일의 내용을 담고 있는 Blob 파일의 참조가 기록된다. 커밋 당 하나 이상의 트리를 포함한다. 파일 시스템의 디렉토리와 유사하다.
+- **Blob:** Binary Large Object, 버전 관리하는 파일들 각각의 내용들은 git 저장소에서 Blob 파일 형태로 저장된다. 파일 내용에 SHA-1 체크섬을 이용해 Blob 파일의 이름을 얻어내기 때문에, 내용이 같은 파일들 모두 하나의 Blob 파일로 저장된다.
 - Tag → 현재는 많이 중요하지 않으므로 skip
 
 (5) Git 브랜치
-
-- branch
-- merge
 
 ### 2) Git의 무결성과 SHA-1
 
@@ -180,3 +177,6 @@ CL 설명문의 첫 줄은 전체 내용의 요약이 되므로 최대한 간결
 - [https://opentutorials.org/course/3838](https://opentutorials.org/course/3838) (생활코딩 - GITn)
 - [https://it-eldorado.tistory.com/4](https://it-eldorado.tistory.com/4) (Git 내부 동작원리 이해)
 - [https://blog.outsider.ne.kr/1505](https://blog.outsider.ne.kr/1505) (checkout vs switch/restore)
+- [https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=tkdldjs35&logNo=221920644169](https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=tkdldjs35&logNo=221920644169) (git 기초명령어와 branch)
+- [https://guides.codepath.com/websecurity/Cryptographic-Hash-Algorithms](https://guides.codepath.com/websecurity/Cryptographic-Hash-Algorithms) (SHA-1)
+- [https://antilog.tistory.com/8](https://antilog.tistory.com/8) (git commit id)
