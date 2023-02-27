@@ -1,3 +1,7 @@
+package Mit.src;
+
+import Mit.src.controller.MitController;
+
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 

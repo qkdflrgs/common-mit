@@ -1,4 +1,10 @@
-import java.io.*;
+package Mit.src.service;
+
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
@@ -14,8 +20,7 @@ public class MitService {
 
     public void compress() throws IOException {
         for (File file : Objects.requireNonNull(files.listFiles())) {
-            if (file.isDirectory()) continue;
-            if (file.isHidden()) continue;
+            if (file.isDirectory() || file.isHidden() || file.getName().contains(".z")) continue;   // 이미 압축된 것 넘기기
 
             Deflater compressor = new Deflater();
             FileInputStream fileInputStream = new FileInputStream(file);
@@ -43,9 +48,7 @@ public class MitService {
         char idx = 'a';
 
         for (File file : Objects.requireNonNull(files.listFiles())) {
-            if (file.isDirectory()) continue;   // 폴더일 경우 내용 없어서 넘기기
-            if (file.isHidden()) continue;      // 숨김파일 출력하지 않기
-
+            if (file.isDirectory() || file.isHidden()) continue;   // 폴더일 경우 내용 없어서 넘기기
             System.out.printf("%s. %s = %s%n", idx++, file.getName(), sha256(readFile(file)));
         }
     }
@@ -59,8 +62,7 @@ public class MitService {
         char idx = 'a';
 
         for (File file : files.listFiles()) {
-            if (file.isDirectory()) continue; // 폴더 생략
-            if (file.isHidden()) continue;  // 숨김 파일은 출력 생략
+            if (file.isDirectory() || file.isHidden()) continue;
 
             System.out.printf("%s. %s %dkb%n",idx++, file.getName(), file.length()/1024);
         }

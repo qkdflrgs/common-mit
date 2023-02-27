@@ -1,3 +1,7 @@
+package Mit.src.view;
+
+import Mit.src.domain.Command;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +16,7 @@ public class Terminal {
         this.br = new BufferedReader(new InputStreamReader(System.in));
     }
 
-    public Map<Command, String[]> readUserInput() throws IOException{
+    public Map<Command, String[]> readUserInput() throws IOException {
         System.out.print("> ");
         String[] strings = br.readLine().split(" ");
 
