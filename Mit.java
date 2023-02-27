@@ -1,5 +1,4 @@
 import java.io.File;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Mit {
@@ -9,7 +8,16 @@ public class Mit {
         String path = defaultPath + userPath;
         File file = new File(path);
         String[] ls = file.list();
-        Arrays.stream(ls).forEach(System.out::println);
+        for (String fileName : ls) {
+            String pathName = path +"\\"+fileName;
+            File subfile = new File(pathName);
+            if (subfile.isDirectory()) {
+                System.out.println(subfile.getName() + "/ " + subfile.length() / 1024 + "KB");
+            }
+            else {
+                System.out.println(subfile.getName() + " " + subfile.length() / 1024 + "KB");
+            }
+        }
     }
 
     public static void main(String[] args) {
