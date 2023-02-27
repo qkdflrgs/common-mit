@@ -10,12 +10,14 @@ class CommandTest {
     @Test
     void createSuccess() {
         // given
-        String input = "mit list /Desktop/masters/cs/cs16";
+        String input1 = "mit list /Desktop/masters/cs/cs16";
+        String input2 = "quit";
 
         // when
 
         // then
-        assertDoesNotThrow(() -> new Command(input));
+        assertDoesNotThrow(() -> new Command(input1));
+        assertDoesNotThrow(() -> new Command(input2));
     }
 
     @Test

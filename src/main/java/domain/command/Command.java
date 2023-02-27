@@ -8,21 +8,29 @@ public class Command {
     private final File[] files;
 
     public Command(String inputCommand) {
-        String[] commands = inputCommand.split(" ");
-        validate(commands);
-        this.menu = Menu.of(commands[1]);
-        this.files = getDirectory(commands[2]).listFiles();
+        validate(inputCommand);
+        this.menu = Menu.of(getFewCommand(inputCommand, 1));
+        this.files = getDirectory(getFewCommand(inputCommand, 2)).listFiles();
     }
 
     public Menu getMenu() {
         return menu;
     }
 
-    public File[] getFilePath() {
+    public File[] getFiles() {
         return files;
     }
 
-    private void validate(String[] splitInput) {
+    public boolean isNotQuit() {
+        return this.menu.isNotQuit();
+    }
+
+    private void validate(String inputCommand) {
+        if (Menu.isQuit(inputCommand)) {
+            return;
+        }
+
+        String[] splitInput = inputCommand.split(" ");
         validateCommandLength(splitInput);
         validateProgramName(splitInput[0]);
         validateDirectoryFiles(splitInput[2]);
@@ -51,5 +59,14 @@ public class Command {
     private File getDirectory(String filePath) {
         String home = System.getProperty("user.home");
         return new File(String.format("%s%s", home, filePath));
+    }
+
+    private String getFewCommand(String inputCommand, int index) {
+        if (Menu.isQuit(inputCommand)) {
+            return inputCommand;
+        }
+
+        String[] split = inputCommand.split(" ");
+        return split[index];
     }
 }
