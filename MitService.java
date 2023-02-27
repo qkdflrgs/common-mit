@@ -34,6 +34,16 @@ public class MitService {
         }
     }
 
+    public void printFileInfo(String filter) {
+        char idx = 'a';
+
+        for (File file : files.listFiles()) {
+            if (file.getName().contains("."+filter)) {
+                System.out.printf("%s. %s %dkb%n",idx++, file.getName(), file.length()/1024);
+            }
+        }
+    }
+
     /**
      * SHA-256으로 해싱하는 메소드
      */
