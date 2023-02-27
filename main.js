@@ -1,5 +1,6 @@
 const { list } = require("./list.js");
 const { hash } = require("./hash.js");
+const { zlib, printZlib } = require("./zlib.js");
 this.readline = require("readline");
 this.stdio = this.readline.createInterface({
   input: process.stdin,
@@ -27,6 +28,7 @@ this.stdio.on("line", (cmd) => {
         hash(directoryPath);
         break;
       case "zlib":
+        zlib(directoryPath);
         break;
     }
   }
