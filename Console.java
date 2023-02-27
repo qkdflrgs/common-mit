@@ -1,5 +1,6 @@
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 public class Console {
@@ -25,6 +26,8 @@ public class Console {
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -35,7 +38,25 @@ public class Console {
         System.out.println(fileContents);
     }
 
-    private void hash(String path) {
+    private void hash(String path) throws IOException, NoSuchAlgorithmException {
+        File[] files = new File(path).listFiles();
 
+        for (File file : files) {
+            makeFileHash(file);
+        }
+    }
+
+    private void makeFileHash(File file) throws IOException, NoSuchAlgorithmException {
+        InputStream inputStream = new FileInputStream(file);
+
+        MessageDigest sha = MessageDigest.getInstance("SHA-256");
+        byte[] buffer = new byte[1024];
+        int numRead = -1;
+
+        while ((numRead = inputStream.read(buffer)) != -1) {
+            sha.update(buffer, 0, numRead);
+        }
+        inputStream.close();
+        System.out.println(sha.digest());
     }
 }
