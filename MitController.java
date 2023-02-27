@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -11,7 +12,7 @@ public class MitController {
         this.endFlag = false;
     }
 
-    public void run() throws IOException {
+    public void run() throws IOException, NoSuchAlgorithmException {
         while (!endFlag) {
             Map<Command, String[]> commandMap = terminal.readUserInput();
 

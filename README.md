@@ -2,7 +2,7 @@
 
 ## 학습목표
 - 파일 시스템을 이해하고, 소스 관리를 위해서 필요한 필수 지식을 학습할 수 있다
-- 깃헙 저장소 upstream과 origin을 통해서 버전 관리를 할 수 있고, PR을 오픈해서 변경된 코드를 리뷰하는 과정을 경험한다
+- 깃헙 저장소 `upstream`과 `origin`을 통해서 버전 관리를 할 수 있고, PR을 오픈해서 변경된 코드를 리뷰하는 과정을 경험한다
 
 ## 목차
 
@@ -41,9 +41,9 @@
    - [x] enum을 이용해 각 커맨드 분류 `Command`, `MitCommand`
 
 ## list
-### 자바로 특정 디렉토리 경로의 파일 목록을 가져오는 방법
-- [File](https://mine-it-record.tistory.com/432)
-- [File size](https://hianna.tistory.com/593)
+- 자바로 특정 디렉토리 경로의 파일 목록을 가져오는 방법
+  - [File](https://mine-it-record.tistory.com/432)
+  - [File size](https://hianna.tistory.com/593)
 - [x] 위 링크와 공식 문서를 참조하여 구현 `MitCommand` > `LIST` > `run()`
 ```java
     LIST("list"){
@@ -60,3 +60,50 @@
         }
     },
 ```
+
+## hash
+- SHA-256이란?
+  - SHA-256은 SHA(Secure Hash Algorithm) 알고리즘의 한 종류로서 256비트로 구성되며 64자리 문자열을 반환한다.
+  - 해시 알고리즘 SHA-2 계열 중 하나이며, 2^256만큼 경우의 수를 만들 수 있다.
+- SHA-256 참고 링크
+  - [해시넷 SHA256](http://wiki.hash.kr/index.php/SHA256#cite_note-8)
+  - [MessageDigest](https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=javaking75&logNo=220551348645)
+  - [파일 MD5, SHA-256 해시값](https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=96s0907&logNo=220930824319)
+  - [SHA-256 암호화 하기](https://bamdule.tistory.com/233)
+- [x] `MitService`로 메서드 분리
+  - [x] list 기능 이전 `MitService` > `printFileInfo()`
+- [x] 위 링크를 참조하여 구현 `MitService` > `printHashes()`
+
+```java
+    public void printHashes() throws IOException, NoSuchAlgorithmException {
+        char idx = 'a';
+
+        for (File file : files.listFiles()) {
+            if (file.isDirectory()) continue;   // 폴더일 경우 내용 없어서 넘기기
+            if (file.isHidden()) continue;      // 숨김파일 출력하지 않기
+
+            FileInputStream fileInputStream = new FileInputStream(file);
+            System.out.printf("%s. %s = %s%n", idx++, file.getName(), sha256(fileInputStream.readAllBytes()));
+        }
+    }
+
+    public static String sha256(byte[] bytes) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(bytes);
+
+        return bytesToHex(md.digest());
+    }
+
+    public static String bytesToHex(byte[] bytes) {
+        StringBuilder builder = new StringBuilder();
+        for (byte b: bytes) {
+            builder.append(String.format("%02x", b));
+        }
+        return builder.toString();
+    }
+```
+
+---
+# ref
+- 기능 구현할 때 enum을 좀 더 적극적으로 활용하고 싶어 다음을 참조하였다. 
+  - [Java Enum 활용기](https://techblog.woowahan.com/2527/)
