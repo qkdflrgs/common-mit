@@ -51,5 +51,8 @@ Person.java.z 0.0175KB
 디렉토리가 비어있습니다. : ./Work
 
 > mit list ./Work/Masters/a
-입력하신 디렉토리명은 디렉토리가 아닙니다. : a.java
+입력하신 디렉토리명은 디렉토리가 아닙니다. : ./Work/Masters/a
+
+> mit list ./Work/Masters/a.java
+입력하신 디렉토리명은 디렉토리가 아닙니다. : ./Work/Masters/a.java
 ```
