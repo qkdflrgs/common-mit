@@ -38,6 +38,12 @@
       <artifactId>guava</artifactId>
       <version>31.1-jre</version>
     </dependency>
+    <dependency>
+      <groupId>org.zeroturnaround</groupId>
+      <artifactId>zt-zip</artifactId>
+      <version>1.15</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
 
 </project>

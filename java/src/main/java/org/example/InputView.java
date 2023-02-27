@@ -2,7 +2,6 @@ package org.example;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -37,7 +36,6 @@ public class InputView {
 
     private boolean isRightCommandType(String command) {
         CommandType[] values = CommandType.values();
-        String s = CommandType.LIST.name().toLowerCase();
         return Arrays.stream(values)
             .anyMatch(commandType -> commandType.name().toLowerCase().equals(command));
     }

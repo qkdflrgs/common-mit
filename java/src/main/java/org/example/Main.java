@@ -21,6 +21,9 @@ public class Main {
                 case HASH:
                     result = mit.hashOfPath(command.getDir());
                     break;
+                case ZLIB:
+                    result = mit.zlibOfPath(command.getDir());
+                    break;
                 default:
                     result = new ArrayList<>();
             }
