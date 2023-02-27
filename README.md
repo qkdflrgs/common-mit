@@ -57,3 +57,6 @@ for(byte b : fileByte){
 }
 return sb.toString();
 ```
+### 참고
+[File to byte[]](https://blog.naver.com/PostView.naver?blogId=hj_kim97&logNo=222309453794&redirect=Dlog&widgetTypeCall=true&directAccess=false)  
+[sha256 Hashing](https://needjarvis.tistory.com/251)
