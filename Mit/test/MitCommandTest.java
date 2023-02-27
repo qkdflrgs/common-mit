@@ -1,14 +1,16 @@
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+package Mit.test;
+
+import Mit.src.domain.MitCommand;
+import org.junit.jupiter.api.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
 
-
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MitCommandTest {
+
     private String directory;
 
     @BeforeEach
@@ -23,22 +25,22 @@ class MitCommandTest {
         System.out.println();
     }
 
-    @Test
+    @Test @Order(4)
     void zlib_test() throws IOException, NoSuchAlgorithmException {
         MitCommand.ZLIB.run(directory);
     }
 
-    @Test
+    @Test @Order(3)
     void hash_test() throws IOException, NoSuchAlgorithmException {
         MitCommand.HASH.run(directory);
     }
 
-    @Test
+    @Test @Order(2)
     void list_test() throws IOException, NoSuchAlgorithmException {
         MitCommand.LIST.run(directory);
     }
 
-    @Test
+    @Test @Order(1)
     void file_test () throws IOException {
         File dir = new File(directory);
 

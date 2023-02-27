@@ -1,3 +1,10 @@
+package Mit.src.controller;
+
+
+import Mit.src.domain.Command;
+import Mit.src.domain.MitCommand;
+import Mit.src.view.Terminal;
+
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
