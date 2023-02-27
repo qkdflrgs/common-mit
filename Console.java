@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class Mit {
+public class Console {
 
     private InputView inputView = new InputView();
 
