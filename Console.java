@@ -57,6 +57,14 @@ public class Console {
             sha.update(buffer, 0, numRead);
         }
         inputStream.close();
-        System.out.println(sha.digest());
+        System.out.println(byteToHex(sha.digest()));
+    }
+
+    private String byteToHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
     }
 }
