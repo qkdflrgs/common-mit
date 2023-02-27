@@ -8,8 +8,7 @@ import java.util.stream.Collectors;
 
 public class Mit {
 
-    public List<String> listOfPath(String path) {
-        File dir = new File(path);
+    public List<String> listOfPath(File dir) {
         File[] files = dir.listFiles();
         return Arrays.stream(Objects.requireNonNull(files))
             .map(Mit::makeFileFormat)
