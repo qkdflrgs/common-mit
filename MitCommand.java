@@ -9,13 +9,8 @@ public enum MitCommand {
         @Override
         void run(String directory) throws IOException {
             // 디렉토리에서 전체 파일 목록을 탐색하고, 파일 크기와 파일명을 출력한다
-            File dir = new File(directory);
-            char idx = 'a';
-
-            for (File file : dir.listFiles()) {
-                if (file.isHidden()) continue;  // 숨김 파일은 출력 생략
-                System.out.printf("%s. %s %dkb\n",idx++, file.getName(), file.length()/1024);
-            }
+            MitService service = new MitService(directory);
+            service.printFileInfo();
         }
     },
     HASH("hash"){
