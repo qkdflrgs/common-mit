@@ -34,6 +34,7 @@ public class Console {
     private void list(String path) {
 
         File[] files = new File(path).listFiles();
+        assert files != null;
         String fileContents = Arrays.stream(files).map(f -> String.format("%s : %d KB%n", f.getName(), f.length())).reduce("", (o, n) -> o + n);
         System.out.println(fileContents);
     }
@@ -41,6 +42,7 @@ public class Console {
     private void hash(String path) throws IOException, NoSuchAlgorithmException {
         File[] files = new File(path).listFiles();
 
+        assert files != null;
         for (File file : files) {
             makeFileHash(file);
         }
