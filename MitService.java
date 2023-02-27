@@ -3,7 +3,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 import java.util.zip.Deflater;
-import java.util.zip.DeflaterInputStream;
 import java.util.zip.DeflaterOutputStream;
 
 public class MitService {
@@ -23,7 +22,7 @@ public class MitService {
             FileOutputStream fileOutputStream = new FileOutputStream(file.getPath() + ".z");
             DeflaterOutputStream deflaterOutputStream = new DeflaterOutputStream(fileOutputStream, compressor);
 
-            compressor.setLevel(Deflater.BEST_COMPRESSION);
+            compressor.setLevel(Deflater.BEST_COMPRESSION); // 최대 압축
             compressor.setInput(readFile(file));
 
             byte[] output = new byte[512];
