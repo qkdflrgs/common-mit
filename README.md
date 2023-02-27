@@ -4,8 +4,8 @@
 
 ## 체크리스트
 - [x] 학습키워드 정리
-- [ ] 과제
-- [ ] 풀이
+- [x] 과제
+- [x] 풀이
 
 ## 학습 키워드별 정리
 ### commit [[`위키백과`](https://ko.wikipedia.org/wiki/%EC%BB%A4%EB%B0%8B), [`boostcourse`](https://www.boostcourse.org/cs102/lecture/1427417?isDesc=false)]
