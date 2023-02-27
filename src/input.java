@@ -9,4 +9,9 @@ public class input {
         StringTokenizer st = new StringTokenizer(br.readLine());
     }
 
+    boolean isMit(String str){
+        return str.equals("mit") ? true : false;
+    }
+
+    
 }
