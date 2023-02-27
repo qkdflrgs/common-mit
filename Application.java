@@ -17,6 +17,7 @@ public class Application {
             }else if(input.startsWith("mit zlib")){
                 mitCommand.zlib(input.split(" ")[2]);
             }else{
+                System.out.println("프로그램을 종료합니다.");
                 break;
             }
         }

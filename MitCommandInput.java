@@ -12,7 +12,7 @@ public class MitCommandInput {
     public String input(){
         while(true){
             try {
-                System.out.println("> ");
+                System.out.print("> ");
                 String text = br.readLine();
                 if(!MitCommandInputValidator.validate(text)){
                     throw new InvalidMitCommand();
