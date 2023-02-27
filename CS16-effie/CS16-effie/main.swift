@@ -96,16 +96,54 @@ final class MitIOManager {
     return input.trimmingCharacters(in: .whitespacesAndNewlines)
   }
   
-  static func printOutput(_ items: [any MitOutput]) throws {
+  static func printOutput(_ items: [any MitOutput]) {
     items.forEach { item in print(item.description) }
   }
 }
 
+extension URL {
+  var fileSize: Int? {
+    get throws {
+      guard self.isFileURL else { return nil }
+      let infos = try self.resourceValues(forKeys: [.fileSizeKey])
+      guard let sizeInByte = infos.fileSize else { return nil }
+      return sizeInByte
+    }
+  }
+}
+
 final class Mit {
-  private var fileManager: FileManager {
+  private static var fileManager: FileManager {
     return FileManager.default
   }
-    
+  
+  private static func getEntitiesURL(from path: String) throws -> [URL] {
+    let directory = NSURL.fileURL(withPath: path)
+    return try fileManager.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)
+  }
+  
+  private static func list(_ path: String) -> [ListOutput] {
+    var outputs: [ListOutput] = []
+    do {
+      let entities = try getEntitiesURL(from: path)
+      outputs = try entities.compactMap { entity in
+        let name = entity.lastPathComponent
+        guard let size = try entity.fileSize else { return nil }
+        return ListOutput(fileName: name, info: size)
+      }
+    } catch {
+      print(error)
+    }
+    return outputs
+  }
+  
+  private static func process(_ command: MitCommand) -> [any MitOutput] {
+    switch command {
+    case .list(let path): return list(path)
+    default: return []
+    }
+  }
+  
   static func run() {
     while true {
       do {
@@ -116,8 +154,8 @@ final class Mit {
         }
         
         let command = try MitCommand.getCommand(from: input)
-        
-        print(command) ///
+        let outputs = process(command)
+        MitIOManager.printOutput(outputs)
         
       } catch {
         if let mitError = error as? MitError {
@@ -131,3 +169,5 @@ final class Mit {
     }
   }
 }
+
+Mit.run()
