@@ -10,10 +10,17 @@ public class MitCommandInput {
     }
 
     public String input(){
-        try {
-            return br.readLine();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        while(true){
+            try {
+                System.out.println("> ");
+                String text = br.readLine();
+                if(!MitCommandInputValidator.validate(text)){
+                    throw new InvalidMitCommand();
+                }
+                return text;
+            } catch (IOException | InvalidMitCommand e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 }
