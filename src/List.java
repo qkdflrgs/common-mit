@@ -18,12 +18,14 @@ public class List {
         return fileInformation;
     }
 
+    public Map<String, Long> getFileInformation(String directory) {
+        File dir = new File(directory);
+        File[] fileList = dir.listFiles();
+        Map<String, Long> fileInformation = new HashMap<>();
 
-    public static void main(String[] args) {
-        List list = new List();
-        Map information = list.getFileInformation();
-        System.out.println(information);
+        for(File file : fileList) {
+            fileInformation.put(file.getName(), file.length());
+        }
+        return fileInformation;
     }
-
-
 }
