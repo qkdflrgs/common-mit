@@ -63,17 +63,17 @@ public class Main {
         path = Arrays.stream(tokens)
                 .reduce((o1, o2) -> o1 + File.separator + o2)
                 .orElse("");
-        System.out.println(path);
+//        System.out.println(path);
         File dir = new File(path);
         return Arrays.stream(dir.listFiles())
                 .filter(o -> o.isFile())
-                .toArray(File[]::new);
+                .toArray(File[]::new); // 파일만 배열에 담음.
     }
 
     private static void printList(String path) {
         File[] files = getFiles(path);
         for (File file : files) {
-            System.out.println(file.getName() + " - " + file.length() / 1024 + "KB");
+            System.out.println(file.getName() + " - " + file.length() / 1024 + "KB"); // KB단위로 출력
         }
     }
 
