@@ -31,3 +31,32 @@ working directory에 있지만 git으로 버전관리를 하지 않는 상태
 추가된 파일이 수정된 상태  
 - **staged**  
 Staging Area에 반영된 상태(`git add`로 추가한 상태)
+
+## 미션 구현
+### File 클래스 사용
+```java
+// 디렉토리 생성
+File directory = new File("C:/CodeSquad/CS16/common-mit/");
+// 파일 목록
+File[] files = directory.listFiles();
+// 파일 크기
+long fileSize = file.length();
+```
+### sha256
+```java
+// 파일을 Byte[]로 바꾼다
+fileByte = Files.readAllBytes(file.toPath());
+// MessageDigest를 이용해서 SHA256으로 해싱한다.
+MessageDigest md = MessageDigest.getInstance("SHA-256");
+md.update(fileByte);
+
+StringBuilder sb = new StringBuilder();
+// byte를 16진수로 변경한다.
+for(byte b : fileByte){
+    sb.append(String.format("%02x", b));
+}
+return sb.toString();
+```
+### 참고
+[File to byte[]](https://blog.naver.com/PostView.naver?blogId=hj_kim97&logNo=222309453794&redirect=Dlog&widgetTypeCall=true&directAccess=false)  
+[sha256 Hashing](https://needjarvis.tistory.com/251)
