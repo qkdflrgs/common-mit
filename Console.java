@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class Console {
 
-    private InputView inputView = new InputView();
+    private final InputView inputView = new InputView();
 
     public void run() {
         try {
