@@ -137,6 +137,40 @@
         }
     }
 ```
+
+## 실행 결과
+```text
+// 전체 파일
+--- test start ---
+.DS_Store 6kb
+out 0kb
+README.md 6kb
+testFile.key 6522kb
+.gitignore 0kb
+Application 0kb
+.git 0kb
+Mit 0kb
+.idea 0kb
+--- test end ---
+
+// mit list [경로]
+--- test start ---
+a. README.md 6kb
+b. testFile.key 6522kb
+--- test end ---
+
+// mit hash [경로]
+--- test start ---
+a. README.md = 957aed2c6d29365eec14c5d563bd62ef8f256faa98e146d8144b441e1e06613d
+b. testFile.key = 6be87cf919fd1ff03871f515036814557e4492cf2560831c59908d1b16e379d8
+--- test end ---
+
+// mit zlib [경로]
+--- test start ---
+a. testFile.key.z 5430kb
+b. README.md.z 2kb
+--- test end ---
+```
 ---
 # ref
 - 기능 구현할 때 enum을 좀 더 적극적으로 활용하고 싶어 다음을 참조하였다. 
