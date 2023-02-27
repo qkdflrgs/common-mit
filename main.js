@@ -42,23 +42,22 @@ function zipFiles(directoryPath) {
   }
 }
 
-function main() {
-  const command = process.argv[2];
-  const directoryPath = process.argv[3];
-  switch (command) {
-    case "list":
-      listFiles(directoryPath);
-      break;
-    case "hash":
-      hashFiles(directoryPath);
-      break;
-    case "zip":
-      zipFiles(directoryPath);
-      break;
-    default:
-      console.error(`Unknown command: ${command}`);
-      process.exit(1);
-  }
-}
+this.readline = require("readline");
+this.stdio = this.readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-main();
+this.stdio.on("line", (line) => {
+  const [_, cmd, directoryPath] = line.split(" ");
+
+  if (cmd === "list") {
+    listFiles(directoryPath);
+  } else if (cmd === "hash") {
+    hashFiles(directoryPath);
+  } else if (cmd === "zlib") {
+    zipFiles(directoryPath);
+  } else {
+    console.log("명령어 오류");
+  }
+});
