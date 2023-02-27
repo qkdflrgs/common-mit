@@ -17,6 +17,9 @@ public class Console {
                 case "list":
                     list(commands[2]);
                     break;
+                case "hash":
+                    hash(commands[2]);
+                    break;
                 default:
                     break;
             }
@@ -30,5 +33,9 @@ public class Console {
         File[] files = new File(path).listFiles();
         String fileContents = Arrays.stream(files).map(f -> String.format("%s : %d KB%n", f.getName(), f.length())).reduce("", (o, n) -> o + n);
         System.out.println(fileContents);
+    }
+
+    private void hash(String path) {
+
     }
 }
