@@ -1,17 +1,11 @@
 package view;
 
 import java.io.File;
-import java.util.Arrays;
 
 public class OutputView {
 
-    public static void printFilesInfomation(File[] files) {
-        Arrays.stream(files)
-            .forEach(file -> {
-                if (file.isFile()) {
-                    System.out.printf("%s %dKB\n", file.getName(), file.length());
-                }
-            });
+    public static void printFilesInfomation(File file) {
+        System.out.printf("%s %.2fKB\n", file.getName(), file.length() / 1024.0);
     }
 
     public static void printQuit() {
