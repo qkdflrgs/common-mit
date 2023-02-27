@@ -12,5 +12,6 @@ public interface MitCommand {
         files.stream()
                 .map(file->String.format("%s %.2fKB", file.getName(), (double) file.length() / 1024))
                 .forEach(System.out::println);
+        System.out.println();
     });
 }
