@@ -26,6 +26,11 @@ class MitCommandTest {
     }
 
     @Test
+    void zlib_test() throws IOException, NoSuchAlgorithmException {
+        MitCommand.ZLIB.run(directory);
+    }
+
+    @Test
     void hash_test() throws IOException, NoSuchAlgorithmException {
         MitCommand.HASH.run(directory);
     }
