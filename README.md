@@ -102,8 +102,44 @@
         return builder.toString();
     }
 ```
+## zilb
+- 참조링크
+  - [Deflater](https://docs.oracle.com/javase/8/docs/api/java/util/zip/Deflater.html)
+  - [byte단위 스트림](https://poew.tistory.com/451)
+  - [DeflaterInputStream](https://docs.oracle.com/javase/8/docs/api/java/util/zip/DeflaterInputStream.html)
+  - [DeflaterOutputStream](https://docs.oracle.com/javase/8/docs/api/java/util/zip/DeflaterOutputStream.html)
+  - [Java와 C의 zip 압축 연산에 대한 퍼포먼스 비교](http://www.gisdeveloper.co.kr/?p=1004)
 
+```java
+    public void compress() throws IOException {
+        for (File file : Objects.requireNonNull(files.listFiles())) {
+            if (file.isDirectory() || file.isHidden()) continue;
+
+            Deflater compressor = new Deflater();
+            FileInputStream fileInputStream = new FileInputStream(file);
+            FileOutputStream fileOutputStream = new FileOutputStream(file.getPath() + ".z");
+            DeflaterOutputStream deflaterOutputStream = new DeflaterOutputStream(fileOutputStream, compressor);
+
+            compressor.setLevel(Deflater.BEST_COMPRESSION); // 최대 압축
+            compressor.setInput(readFile(file));
+
+            byte[] output = new byte[512];
+
+            while (fileInputStream.read(output) != -1) {  // 읽어서
+                compressor.deflate(output);
+                deflaterOutputStream.write(output);     // 출력
+            }
+
+            compressor.finish();
+            fileInputStream.close();
+            deflaterOutputStream.finish();
+            deflaterOutputStream.close();
+        }
+    }
+```
 ---
 # ref
 - 기능 구현할 때 enum을 좀 더 적극적으로 활용하고 싶어 다음을 참조하였다. 
   - [Java Enum 활용기](https://techblog.woowahan.com/2527/)
+- git add나 git commit, git push를 취소할만한 일이 꽤 있어 다음의 링크를 참조하였다.
+  - [git add, commit, push 취소](https://gmlwjd9405.github.io/2018/05/25/git-add-cancle.html)
