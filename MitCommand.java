@@ -1,6 +1,4 @@
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Optional;
@@ -24,9 +22,11 @@ public enum MitCommand {
     },
     ZLIB("zlib"){
         @Override
-        void run(String directory) {
+        void run(String directory) throws IOException {
             // 디렉토리에서 전체 파일 목록을 탐색하고, 각 파일을 zlib로 압축해서 .z를 붙여서 저장한다.
-            System.out.println("zlib이 실행됩니다.");
+            MitService service = new MitService(directory);
+            service.compress();
+            service.printFileInfo("z");
         }
     };
 
