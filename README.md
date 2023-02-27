@@ -1,2 +1,115 @@
-# common-mit
-CS16 공통 프로젝트 저장소
+# CS16
+
+## 학습 계획
+
+- [X]  학습 계획 작성
+- [ ]  미션 이해하면서 학습 키워드 정리
+- [X]  쪼개고 우선순위 정하기
+- [ ]  구현
+    - [X]  step 0: 입출력 및 명령어 파싱
+    - [X]  step 1: list
+    - [ ]  step 2: hash
+    - [ ]  step 3: zlib
+- [ ]  학습 정리
+
+---
+
+# 미션 쪼개기
+
+- [x]  [step 0] 입력 받아서 명령어 만들기 - mit / 명령어 / path(String) 수준으로
+- [x]  [step 0] 입출력 관리 객체, 출력용 객체 만들기
+- [X]  [git] 작업 환경 조성 - local에 fork 및 test PR
+- [X]  [step 1] list
+    1. 시스템에 접근해서 특정 디렉토리의 entity 목록 fetch
+    2. 각 파일의 용량 fetch
+    3. 출력 객체 만들기
+- [ ]  [step 2] hash
+    1. CryptoKit - hash 함수
+    2. 파일에 대한 hash 구하기
+- [ ]  [step 3] zlib
+    1. NSData가 제공하는 기능으로 압축하기
+
+---
+
+# 구현
+
+## 1단계: list
+
+### 파일 다루기
+
+macOS 파일 시스템과 파일 경로 다루기
+
+[Swift로 파일 다루기](https://hcn1519.github.io/articles/2017-07/swift_file_manager)
+
+[File System Basics](https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html#//apple_ref/doc/uid/TP40010672-CH2-SW2)
+
+### 방법 1
+
+> 문자열로 파일을 가져오고 → 용량 따로 구하는 방법
+> 
+
+[contentsOfDirectory(atPath:) | Apple Developer Documentation](https://developer.apple.com/documentation/foundation/filemanager/1414584-contentsofdirectory)
+
+### 방법 2 ✅
+
+> shallow 탐색으로 파일들에 대한 url 가져오고 url로 이름이랑 파일 정보 가져오는 방법
+> 
+
+이게 좀 더 정석 같은 방법이려나
+
+문자열을 URL로 바꿔보자.
+
+[fileURL(withPath:) | Apple Developer Documentation](https://developer.apple.com/documentation/foundation/nsurl/1410828-fileurl)
+
+그리고 디렉토리 하위 엔티티에 접근하자
+
+이 중에서 파일인 친구들만 구해야 할 것이다.
+
+[contentsOfDirectory(at:includingPropertiesForKeys:options:) | Apple Developer Documentation](https://developer.apple.com/documentation/foundation/filemanager/1413768-contentsofdirectory)
+
+파일의 URL을 통해 데이터를 생성하자
+
+[init(contentsOf:) | Apple Developer Documentation](https://developer.apple.com/documentation/foundation/nsdata/1413892-init)
+
+자 이제 이 데이터의 크기만 구하면 된다.
+
+잠깐… Data 타입으로 변환하지 않아도 사용할 수 있는 인터페이스가 있다고?
+
+원하는 값을 키 타입으로 전달해서 얻는 인터페이스를 찾았다.
+
+[resourceValues(forKeys:) | Apple Developer Documentation](https://developer.apple.com/documentation/foundation/url/1780058-resourcevalues)
+
+위 메소드는 키 셋을 전달하는 방법으로 속성에 접근한다.
+
+키 타입은 다음과 같고 프로퍼티로 키를 제공한다.
+
+(근데 enum같은 optionSet이 아니라 이런 식으로 구현하는 이유가 뭘까? 이런 패턴 볼 때마다 매번 궁금.)
+
+[URLResourceKey | Apple Developer Documentation](https://developer.apple.com/documentation/foundation/urlresourcekey)
+
+암튼 사이즈 키에는 다른 키도 많았지만, 이게 제일 기본인 것 같아서 선택
+
+[fileAllocatedSizeKey | Apple Developer Documentation](https://developer.apple.com/documentation/foundation/urlresourcekey/1409814-fileallocatedsizekey)
+
+이름은 굳이 따로 받지 않아도 이런 방법이 있었다.
+
+[lastPathComponent | Apple Developer Documentation](https://developer.apple.com/documentation/foundation/url/1780317-lastpathcomponent)
+
+기타 참고
+
+- entity size
+    
+    [https://stackoverflow.com/questions/32814535/how-to-get-directory-size-with-swift-on-os-x](https://stackoverflow.com/questions/32814535/how-to-get-directory-size-with-swift-on-os-x)
+    
+- String → url / url → String
+    
+    [https://www.zerotoappstore.com/swift-url-to-string.html](https://www.zerotoappstore.com/swift-url-to-string.html)
+    
+- isDirectory
+    
+    [https://stackoverflow.com/questions/65152001/how-to-check-if-swift-url-is-directory](https://stackoverflow.com/questions/65152001/how-to-check-if-swift-url-is-directory)
+    
+
+## 2단계: hash
+
+## 3단계: zlib
