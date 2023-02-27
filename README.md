@@ -19,6 +19,7 @@ $ mit zlib /Work/Masters/
 - `list` : 해당 디렉토리의 파일 목록을 출력
 - `hash` : 해당 디렉토리의 파일들의 hash를 출력
 - `zlib` : 해당 디렉토리의 파일들을 zlib로 압축
+- `exit` : 애플리케이션을 종료합니다.
 
 ## mit 명령어 - 프로그래밍 요구 사항
 - 디렉토리명은 디렉토리이름으로 끝나거나 `/`로 끝날 수 있습니다.
@@ -55,4 +56,7 @@ Person.java.z 0.0175KB
 
 > mit list ./Work/Masters/a.java
 입력하신 디렉토리명은 디렉토리가 아닙니다. : ./Work/Masters/a.java
+
+> exit
+프로그램을 종료합니다.
 ```
