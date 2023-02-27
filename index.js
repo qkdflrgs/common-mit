@@ -8,7 +8,7 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-rl.question(chalk.blue(''), (input) => {
+rl.question(chalk.blue(''), async (input) => {
   const isValid = /^mit\s+(list|hash|zlib)\s+([~\w\s/\\:\*\?"<>\|]+)$/.test(
     input
   );
@@ -17,42 +17,55 @@ rl.question(chalk.blue(''), (input) => {
     rl.close();
     return;
   }
-  const [mit, command, directory] = input.split(' ');
 
-  switch (command) {
-    case 'list':
-      listFiles(directory);
-    case 'hash':
-    case 'zlib':
+  const [_, command, directory] = input.split(' ');
+  try {
+    const fileList = await getFileList(directory);
+    const filePath = path.join(directory, file);
+    fileList.forEach((file) => {
+      switch (command) {
+        case 'list':
+          listFiles(filePath, file);
+        case 'hash':
+          hashFiles(filePath, file);
+        case 'zlib':
+      }
+    });
+  } catch (err) {
+    console.log(chalk.red(err.message));
+    rl.close();
+    return;
   }
 
   rl.close();
 });
 
-function listFiles(directory) {
-  fs.readdir(directory, (err, files) => {
+function getFileList(directory) {
+  return new Promise((resolve, reject) => {
+    fs.readdir(directory, (err, files) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(files);
+    });
+  });
+}
+
+function listFiles(filePath, file) {
+  fs.stat(filePath, (err, stat) => {
     if (err) {
       console.log(chalk.red(err.message));
       return;
     }
+    const fileSizeInKiloBytes = (stat.size / 1024).toFixed(2);
 
-    files.forEach((file) => {
-      const filePath = path.join(directory, file);
-      fs.stat(filePath, (err, stat) => {
-        if (err) {
-          console.log(chalk.red(err.message));
-          return;
-        }
+    if (stat.isDirectory()) {
+      console.log(chalk.green(`${file + '/'} ${fileSizeInKiloBytes}KB`));
+      return;
+    }
 
-        const fileSizeInKiloBytes = (stat.size / 1024).toFixed(2);
-
-        if (stat.isDirectory()) {
-          console.log(chalk.green(`${file + '/'} ${fileSizeInKiloBytes}KB`));
-          return;
-        }
-
-        console.log(chalk.green(`${file} ${fileSizeInKiloBytes}KB`));
-      });
-    });
+    console.log(chalk.green(`${file} ${fileSizeInKiloBytes}KB`));
   });
 }
+
+function hashFiles(filePath, file) {}
