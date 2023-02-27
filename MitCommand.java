@@ -15,8 +15,10 @@ public enum MitCommand {
     },
     HASH("hash"){
         @Override
-        void run(String directory) {
-            System.out.println("hash가 실행됩니다.");
+        void run(String directory) throws NoSuchAlgorithmException, IOException {
+            // 디렉토리에서 전체 파일 목록을 탐색하고, 각 파일 내용에 대한 sha256 해시 값을 출력한다.
+            MitService service = new MitService(directory);
+            service.printHashes();
         }
     },
     ZLIB("zlib"){
