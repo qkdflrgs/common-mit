@@ -12,7 +12,7 @@ class CommandLine {
     this.rl.prompt();
 
     for await (const input of this.rl) {
-      this.relayCommand(input);
+      await this.relayCommand(input);
       console.log("\n");
       this.rl.prompt();
     }
@@ -22,7 +22,7 @@ class CommandLine {
     this.rl.close();
   }
 
-  relayCommand(command) {
+  async relayCommand(command) {
     const [mit, cmd, dirname] = command.split(" ");
 
     if (mit === "quit") {
@@ -36,16 +36,22 @@ class CommandLine {
 
     switch (cmd) {
       case "list":
-        this.mit.list(dirname);
+        try {
+          (await this.mit.list(dirname)).forEach(({ name, size }) => {
+            console.log(`${name} ${size}`);
+          });
+        } catch (err) {
+          console.log(err);
+        }
         break;
       case "hash":
-        this.mit.hash(dirname);
+        // this.mit.hash(dirname);
         break;
       case "zlib":
-        this.mit.zlib(dirname);
+        // this.mit.zlib(dirname);
         break;
       default:
-        console.log(`Command not found: ${cmd}`);
+        console.log(`Command not found: mit ${cmd}`);
         break;
     }
   }
