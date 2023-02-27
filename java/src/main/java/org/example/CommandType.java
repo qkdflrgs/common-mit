@@ -1,5 +1,5 @@
 package org.example;
 
 public enum CommandType {
-    LIST,CLOSE
+    LIST,CLOSE,HASH
 }

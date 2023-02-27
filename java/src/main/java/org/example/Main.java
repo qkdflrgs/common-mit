@@ -18,6 +18,9 @@ public class Main {
                 case LIST:
                     result = mit.listOfPath(command.getDir());
                     break;
+                case HASH:
+                    result = mit.hashOfPath(command.getDir());
+                    break;
                 default:
                     result = new ArrayList<>();
             }
