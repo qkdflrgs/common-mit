@@ -42,3 +42,18 @@ File[] files = directory.listFiles();
 // 파일 크기
 long fileSize = file.length();
 ```
+### sha256
+```java
+// 파일을 Byte[]로 바꾼다
+fileByte = Files.readAllBytes(file.toPath());
+// MessageDigest를 이용해서 SHA256으로 해싱한다.
+MessageDigest md = MessageDigest.getInstance("SHA-256");
+md.update(fileByte);
+
+StringBuilder sb = new StringBuilder();
+// byte를 16진수로 변경한다.
+for(byte b : fileByte){
+    sb.append(String.format("%02x", b));
+}
+return sb.toString();
+```
