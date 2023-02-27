@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import service.SHA256Service;
+import service.ZlibService;
 
 public enum CommandType {
 	LIST {
@@ -31,7 +32,7 @@ public enum CommandType {
 	}, ZLIB {
 		@Override
 		public List<Map<String, Object>> doTask(String directoryPath) {
-			return null;
+			return taskTemplate(directoryPath, ZlibService::compress);
 		}
 	};
 
