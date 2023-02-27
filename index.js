@@ -2,6 +2,7 @@ const readline = require('readline');
 const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -21,8 +22,10 @@ rl.question(chalk.blue(''), async (input) => {
   const [_, command, directory] = input.split(' ');
   try {
     const fileList = await getFileList(directory);
-    const filePath = path.join(directory, file);
+
     fileList.forEach((file) => {
+      const filePath = path.join(directory, file);
+      let result = '';
       switch (command) {
         case 'list':
           listFiles(filePath, file);
@@ -68,4 +71,44 @@ function listFiles(filePath, file) {
   });
 }
 
-function hashFiles(filePath, file) {}
+function checkIsDirectory(filePath) {
+  return new Promise((resolve, reject) => {
+    fs.stat(filePath, (err, stat) => {
+      if (err) {
+        console.log(chalk.red(err.message));
+        return reject(err);
+      }
+      resolve(stat.isDirectory());
+    });
+  });
+}
+
+async function hashFiles(filePath, file) {
+  const hash = crypto.createHash('sha256');
+  const fileStream = fs.createReadStream(filePath);
+  let isDirectory = false;
+  try {
+    isDirectory = await checkIsDirectory(filePath);
+  } catch (err) {
+    console.log(chalk.red(err.message));
+    return;
+  }
+
+  if (isDirectory) {
+    return;
+  }
+
+  fileStream.on('data', (data) => {
+    hash.update(data);
+  });
+
+  fileStream.on('error', (err) => {
+    console.log(chalk.red(err.message));
+    return;
+  });
+
+  fileStream.on('end', () => {
+    const sha256Hash = hash.digest('hex');
+    console.log(chalk.green(`${file} = ${sha256Hash}`));
+  });
+}
