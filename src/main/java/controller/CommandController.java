@@ -26,7 +26,7 @@ public class CommandController {
     }
 
     private void list(File[] files) {
-
+        OutputView.printFilesInfomation(files);
     }
 
     private void hash(File[] files) {
