@@ -1,4 +1,5 @@
-import fs from "fs/promises";
+import { readdir, readFile, stat } from "node:fs/promises";
+import { createHash } from "node:crypto";
 
 class Mit {
   constructor() {}
@@ -6,11 +7,11 @@ class Mit {
   // Return all files (file size, file name) in `dirname`.
   async list(dirname) {
     try {
-      const files = await fs.readdir(dirname);
+      const files = await readdir(dirname);
 
       return Promise.all(
         files.map(async (file) => {
-          const { size } = await fs.stat(`${dirname}/${file}`);
+          const { size } = await stat(`${dirname}/${file}`);
           return { name: file, size: `${size}B` };
         })
       );
@@ -19,8 +20,24 @@ class Mit {
     }
   }
 
-  // Hash each file in `dirname` and return the hash values.
-  hash(dirname) {}
+  // Return hash values of each file's content in `dirname`.
+  async hash(dirname) {
+    try {
+      const files = await readdir(dirname);
+
+      return Promise.all(
+        files.map(async (file) => {
+          const content = await readFile(`${dirname}/${file}`, {
+            encoding: "utf-8",
+          });
+          const hash = createHash("sha256").update(content).digest("base64");
+          return { name: file, hash };
+        })
+      );
+    } catch (err) {
+      return err;
+    }
+  }
 
   // Compress each file in `dirname` and save with a `.z` extension.
   zlib(dirname) {}
