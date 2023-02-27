@@ -6,15 +6,16 @@ const rl = readline.createInterface({
 });
 
 function InputView(callback, end) {
-  rl.on("line",(line) => {
+  rl.on("line", (line) => {
     try {
-      callback(line)
-    }catch {
-      rl.close()
+      callback(line);
+    } catch (e) {
+      console.log(e);
+      rl.close();
     }
-  }).on("close", () =>{
-    end()
-  })
+  }).on("close", () => {
+    end();
+  });
 }
 
 module.exports = InputView;
